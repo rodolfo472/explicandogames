@@ -4,15 +4,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Music Timer</title>
 </head>
-<body style="text-align:center; font-family:Arial; background:#111; color:white;">
+<body style="text-align:center; background:black; color:white;">
 
 <h2>🎵 Player com Timer</h2>
 
-<input type="number" id="minutes" placeholder="Quantos minutos?" />
+<input type="number" id="minutes" placeholder="Minutos">
 <button onclick="startMusic()">Tocar</button>
 
-<audio id="music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
+<audio id="music" controls>
+  <source src="https://www.soundjay.com/button/beep-07.mp3" type="audio/mpeg">
 </audio>
 
 <script>
