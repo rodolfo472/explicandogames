@@ -2,67 +2,30 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>meu negoci e grande kkk</title>
-<style>
-body {
-  margin:0;
-  overflow:hidden;
-  background:#111;
-}
-
-#map {
-  width:2000px;
-  height:2000px;
-  background:
-  repeating-linear-gradient(
-    0deg,
-    #333 0px,
-    #333 50px,
-    #2a2a2a 50px,
-    #2a2a2a 100px
-  );
-  position:absolute;
-}
-
-#player {
-  width:40px;
-  height:40px;
-  background:red;
-  position:absolute;
-  border-radius:5px;
-}
-</style>
+<title>Music Timer</title>
 </head>
-<body>
+<body style="text-align:center; font-family:Arial; background:#111; color:white;">
 
-<div id="map"></div>
-<div id="player"></div>
+<h2>🎵 Player com Timer</h2>
+
+<input type="number" id="minutes" placeholder="Quantos minutos?" />
+<button onclick="startMusic()">Tocar</button>
+
+<audio id="music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-let player = document.getElementById("player");
-let map = document.getElementById("map");
+function startMusic() {
+  let mins = document.getElementById("minutes").value;
+  let audio = document.getElementById("music");
 
-let x = 500;
-let y = 500;
-let speed = 5;
+  audio.play();
 
-function update() {
-  player.style.left = x + "px";
-  player.style.top = y + "px";
-
-  window.scrollTo(x - window.innerWidth/2, y - window.innerHeight/2);
+  setTimeout(function(){
+    audio.pause();
+  }, mins * 60000);
 }
-
-document.addEventListener("keydown", function(e){
-  if(e.key === "w") y -= speed;
-  if(e.key === "s") y += speed;
-  if(e.key === "a") x -= speed;
-  if(e.key === "d") x += speed;
-
-  update();
-});
-
-update();
 </script>
 
 </body>
