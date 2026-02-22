@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black; text-align:center; color:white;">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tacos do negão</title>
+</head>
+<body style="text-align:center; background:black; color:white; font-family:Arial;">
 
-<h2>o pau do negão</h2>
+<h2>🎵 Player (Máx 10 anos)</h2>
 
-<audio controls>
-  <source src="taco.mp3" type="audio/mpeg">
+<input type="number" id="minutes" placeholder="Digite os minutos" min="1">
+<button id="playBtn">Tocar</button>
+
+<br><br>
+
+<audio id="music" loop>
+  <source src="audio.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+let button = document.getElementById("playBtn");
+let audio = document.getElementById("music");
+let timer;
+
+const MAX_MINUTES = 5256000; // 10 anos
+
+button.addEventListener("click", function() {
+
+  let mins = parseFloat(document.getElementById("minutes").value);
+
+  if (!mins || mins <= 0) {
+    alert("Digite um número válido!");
+    return;
+  }
+
+  if (mins > MAX_MINUTES) {
+    alert("Máximo permitido é 10 anos!");
+    return;
+  }
+
+  clearTimeout(timer);
+  audio.currentTime = 0;
+  audio.play();
+
+  timer = setTimeout(function() {
+    audio.pause();
+    audio.currentTime = 0;
+    alert("Tempo finalizado!");
+  }, mins * 60000);
+
+});
+</script>
 
 </body>
 </html>
