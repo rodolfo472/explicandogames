@@ -1,47 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Timer</title>
-</head>
-<body style="text-align:center; background:black; color:white;">
+<body style="background:black; text-align:center; color:white;">
 
-<h2>🎵 Player com Timer</h2>
+<h2>o pau do negão</h2>
 
-<input type="number" id="minutes" placeholder="Minutos" min="1">
-<button id="playBtn">Tocar</button>
-
-<audio id="music" controls>
-  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" type="audio/mpeg">
+<audio controls>
+  <source src="taco.mp3" type="audio/mpeg">
 </audio>
-<script>
-let button = document.getElementById("playBtn");
-let audio = document.getElementById("music");
-
-button.addEventListener("click", function() {
-
-  let mins = parseInt(document.getElementById("minutes").value);
-
-  if (!mins || mins <= 0) {
-    alert("Digite um número válido de minutos!");
-    return;
-  }
-
-  audio.currentTime = 0;
-  audio.play().then(() => {
-
-    setTimeout(function(){
-      audio.pause();
-      alert("Tempo finalizado!");
-    }, mins * 60000);
-
-  }).catch(err => {
-    alert("Erro ao tocar áudio.");
-    console.log(err);
-  });
-
-});
-</script>
 
 </body>
 </html>
