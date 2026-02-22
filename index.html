@@ -8,24 +8,40 @@
 
 <h2>🎵 Player com Timer</h2>
 
-<input type="number" id="minutes" placeholder="Minutos">
-<button onclick="startMusic()">Tocar</button>
+<input type="number" id="minutes" placeholder="Minutos" min="1">
+<button id="playBtn">Tocar</button>
 
 <audio id="music" controls>
   <source src="https://www.soundjay.com/button/beep-07.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-function startMusic() {
-  let mins = document.getElementById("minutes").value;
-  let audio = document.getElementById("music");
+let button = document.getElementById("playBtn");
+let audio = document.getElementById("music");
 
-  audio.play();
+button.addEventListener("click", function() {
 
-  setTimeout(function(){
-    audio.pause();
-  }, mins * 60000);
-}
+  let mins = parseInt(document.getElementById("minutes").value);
+
+  if (!mins || mins <= 0) {
+    alert("Digite um número válido de minutos!");
+    return;
+  }
+
+  audio.currentTime = 0;
+  audio.play().then(() => {
+
+    setTimeout(function(){
+      audio.pause();
+      alert("Tempo finalizado!");
+    }, mins * 60000);
+
+  }).catch(err => {
+    alert("Erro ao tocar áudio.");
+    console.log(err);
+  });
+
+});
 </script>
 
 </body>
