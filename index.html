@@ -2,26 +2,56 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini RP Game</title>
+<title>meu negoci e grande kkk</title>
 <style>
-body { margin:0; overflow:hidden; background:#222; }
+body {
+  margin:0;
+  overflow:hidden;
+  background:#111;
+}
+
+#map {
+  width:2000px;
+  height:2000px;
+  background:
+  repeating-linear-gradient(
+    0deg,
+    #333 0px,
+    #333 50px,
+    #2a2a2a 50px,
+    #2a2a2a 100px
+  );
+  position:absolute;
+}
+
 #player {
   width:40px;
   height:40px;
   background:red;
   position:absolute;
+  border-radius:5px;
 }
 </style>
 </head>
 <body>
 
+<div id="map"></div>
 <div id="player"></div>
 
 <script>
 let player = document.getElementById("player");
-let x = 100;
-let y = 100;
+let map = document.getElementById("map");
+
+let x = 500;
+let y = 500;
 let speed = 5;
+
+function update() {
+  player.style.left = x + "px";
+  player.style.top = y + "px";
+
+  window.scrollTo(x - window.innerWidth/2, y - window.innerHeight/2);
+}
 
 document.addEventListener("keydown", function(e){
   if(e.key === "w") y -= speed;
@@ -29,9 +59,10 @@ document.addEventListener("keydown", function(e){
   if(e.key === "a") x -= speed;
   if(e.key === "d") x += speed;
 
-  player.style.left = x + "px";
-  player.style.top = y + "px";
+  update();
 });
+
+update();
 </script>
 
 </body>
