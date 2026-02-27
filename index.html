@@ -1,93 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Timer</title>
+<title>Plataforma de Estudos</title>
 
 <style>
-body{
-    background:black;
-    color:white;
-    text-align:center;
-    font-family:Arial;
+body {
+  font-family: Arial;
+  background: #111;
+  color: white;
+  text-align: center;
 }
-input, button{
-    padding:10px;
-    font-size:16px;
-    margin:5px;
+
+.container {
+  margin-top: 20px;
 }
-button{
-    background:red;
-    color:white;
-    border:none;
-    border-radius:5px;
+
+input, textarea {
+  width: 80%;
+  padding: 8px;
+  margin: 5px;
 }
-button:hover{
-    background:darkred;
+
+textarea {
+  height: 80px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.estudar { background: green; color: white; }
+.premio { background: gold; }
+
+#premiumBox {
+  display: none;
+  background: #222;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+#ranking {
+  margin-top: 20px;
+  background: #222;
+  padding: 10px;
 }
 </style>
-
 </head>
 <body>
 
-<h2>🎵 Player com Timer (Máx 10 anos)</h2>
+<h1>📚 Plataforma de Estudos</h1>
 
-<input type="number" id="minutes" placeholder="Digite os minutos" min="1">
-<button onclick="startMusic()">Tocar</button>
-<button onclick="stopMusic()">Parar</button>
+<div class="container">
 
-<br><br>
+<input type="text" id="usuario" placeholder="Digite seu nome"><br>
 
-<audio id="music" controls loop>
-  <source src="taco.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio.
-</audio>
+<textarea id="textoEstudo" placeholder="Digite o que você estudou hoje..."></textarea><br>
+
+<button class="estudar" onclick="estudar()">Estudar</button>
+<button class="premio" onclick="mostrarPremio()">🎁 Prêmio</button>
+
+<div id="premiumBox">
+  <h2>Área Premium</h2>
+  <p>Para liberar o estudo melhorado, faça o pagamento via PIX:</p>
+  <img src="2026-02-27-19-12-51-5341505121450286994.jpg" width="200"><br><br>
+  <button onclick="ativarPremium()">Já comprei</button>
+</div>
+
+<h2 id="nivel"></h2>
+<h3 id="pontos"></h3>
+<div id="resultado"></div>
+
+<div id="ranking">
+  <h3>🏆 Ranking Local</h3>
+  <div id="listaRanking"></div>
+</div>
+
+</div>
 
 <script>
 
-let audio = document.getElementById("music");
-let timer;
-const MAX_MINUTES = 5256000; // 10 anos
+// Função principal de estudo
+function estudar() {
+  const usuario = document.getElementById("usuario").value;
+  const texto = document.getElementById("textoEstudo").value;
 
-function startMusic(){
+  if (!usuario || !texto) {
+    alert("Preencha nome e estudo!");
+    return;
+  }
 
-    let mins = parseFloat(document.getElementById("minutes").value);
+  let pontos = parseInt(localStorage.getItem("pontos_" + usuario)) || 0;
+  let premium = localStorage.getItem("premium_" + usuario);
 
-    if(!mins || mins <= 0){
-        alert("Digite um número válido!");
-        return;
-    }
+  let ganho = 10;
+  if (premium === "true") {
+    ganho = 20; // Premium ganha o dobro
+  }
 
-    if(mins > MAX_MINUTES){
-        alert("Máximo permitido é 10 anos!");
-        return;
-    }
+  pontos += ganho;
+  localStorage.setItem("pontos_" + usuario, pontos);
 
-    clearTimeout(timer);
-
-    audio.currentTime = 0;
-
-    audio.play().then(()=>{
-        console.log("Áudio iniciado com sucesso!");
-    }).catch((error)=>{
-        alert("Erro ao tocar o áudio. Verifique o arquivo.");
-        console.log(error);
-        return;
-    });
-
-    timer = setTimeout(function(){
-        audio.pause();
-        audio.currentTime = 0;
-        alert("Tempo finalizado!");
-    }, mins * 60000);
-
+  atualizarNivel(usuario);
+  atualizarRanking();
 }
 
-function stopMusic(){
-    clearTimeout(timer);
-    audio.pause();
-    audio.currentTime = 0;
+// Atualiza nível e resultado do usuário
+function atualizarNivel(usuario) {
+  let pontos = parseInt(localStorage.getItem("pontos_" + usuario)) || 0;
+  let nivel = Math.floor(pontos / 50) + 1;
+
+  document.getElementById("nivel").innerHTML = "Nível: " + nivel;
+  document.getElementById("pontos").innerHTML = "Pontos: " + pontos;
+
+  let premium = localStorage.getItem("premium_" + usuario);
+
+  if (premium === "true") {
+    document.getElementById("resultado").innerHTML =
+      "<h2 style='color:gold;'>🔥 MODO PREMIUM ATIVADO 🔥</h2>";
+  } else {
+    document.getElementById("resultado").innerHTML =
+      "<h2>Modo Normal</h2>";
+  }
 }
+
+// Mostra a caixa de prêmio
+function mostrarPremio() {
+  document.getElementById("premiumBox").style.display = "block";
+}
+
+// Ativa premium e salva no navegador
+function ativarPremium() {
+  const usuario = document.getElementById("usuario").value;
+
+  if (!usuario) {
+    alert("Digite seu nome primeiro!");
+    return;
+  }
+
+  localStorage.setItem("premium_" + usuario, "true");
+  alert("Premium ativado!");
+}
+
+// Atualiza ranking local
+function atualizarRanking() {
+  let lista = "";
+
+  for (let key in localStorage) {
+    if (key.startsWith("pontos_")) {
+      let nome = key.replace("pontos_", "");
+      let pontos = localStorage.getItem(key);
+      lista += nome + " - " + pontos + " pontos<br>";
+    }
+  }
+
+  document.getElementById("listaRanking").innerHTML = lista;
+}
+
+// Atualiza ranking ao carregar
+atualizarRanking();
 
 </script>
 
