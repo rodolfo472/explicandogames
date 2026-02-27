@@ -3,29 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Estudos</title>
+<title>Estudar Fácil 2</title>
 <style>
 body { font-family: Arial; background: #111; color: white; text-align: center; }
-.container { margin-top: 20px; }
-input, textarea { width: 80%; padding: 8px; margin: 5px; }
-textarea { height: 80px; }
+.container { margin-top: 20px; padding: 10px; }
 button { padding: 10px 20px; margin: 8px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; }
-.estudar { background: green; color: white; }
 .premio { background: gold; }
 #premiumBox { display: none; background: #222; padding: 15px; margin-top: 15px; }
-#resultado { margin-top: 20px; background: #222; padding: 15px; text-align: left; overflow-y:auto; max-height:400px; }
+#resultado { margin-top: 20px; background: #222; padding: 15px; text-align: left; overflow-y:auto; max-height:500px; }
 </style>
 </head>
 <body>
 
-<h1>📚 Painel de Estudos</h1>
+<h1>📚 Estudar Fácil 2</h1>
 <div class="container">
 
-<input type="text" id="usuario" placeholder="Digite seu nome"><br>
-<input type="text" id="materiaInput" placeholder="Digite a matéria que deseja estudar"><br>
-<textarea id="perguntaInput" placeholder="Faça uma pergunta sobre a matéria (opcional)"></textarea><br>
-
-<button class="estudar" onclick="mostrarMateria()">Ver Matéria</button>
 <button class="premio" onclick="mostrarPremio()">🎁 Prêmio</button>
 <button onclick="lerTexto()">Lê para mim 🔊</button>
 
@@ -41,7 +33,7 @@ button { padding: 10px 20px; margin: 8px; border: none; cursor: pointer; font-si
 </div>
 
 <script>
-// --- Base de matérias do painel.html ---
+// --- Base de matérias do painel ---
 const materias = {
   quimica: {
     completo: `Química é a ciência que estuda a composição, estrutura e propriedades da matéria, suas transformações e as leis que regem essas mudanças.
@@ -70,7 +62,7 @@ Inclui desde a arte clássica e renascentista até arte contemporânea, digital 
   }
 };
 
-// --- Lista de aliases para reconhecer maiúsculas, minúsculas e acentos ---
+// --- Lista de aliases para reconhecer maiúsculas/minúsculas e acentos ---
 const aliases = {
   quimica: ["quimica","química","chemistry"],
   biologia: ["biologia","biology","bio"],
@@ -79,12 +71,12 @@ const aliases = {
   artes: ["artes","arte","arts"]
 };
 
-// --- Normalizar texto (remove acentos e minúscula) ---
+// --- Normalizar texto ---
 function normalizar(texto){
   return texto.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 }
 
-// --- Reconhece matéria mesmo com variações ---
+// --- Reconhece matéria recebida via URL ---
 function reconhecerMateria(texto){
   const txt = normalizar(texto);
   for(const mat in aliases){
@@ -95,24 +87,12 @@ function reconhecerMateria(texto){
 
 // --- Mostrar matéria ---
 function mostrarMateria(){
-  let usuario = document.getElementById("usuario").value;
-  let materiaInput = document.getElementById("materiaInput").value;
-  let pergunta = document.getElementById("perguntaInput").value;
-
-  // Se vier da URL (clicado do index.html)
   const params = new URLSearchParams(window.location.search);
-  if(params.get("usuario")) usuario = params.get("usuario");
-  if(params.get("materia")) materiaInput = params.get("materia");
-
-  if(!usuario || !materiaInput){ alert("Digite seu nome e a matéria!"); return; }
-
+  const materiaInput = params.get("materia") || "";
   const mat = reconhecerMateria(materiaInput);
 
-  if(mat){ 
-    const conteudo = materias[mat].completo;
-    let textoFinal = conteudo;
-    if(pergunta) textoFinal += "\n\nPergunta: " + pergunta + "\nResposta: Explicação detalhada.";
-    document.getElementById("resultado").innerHTML = textoFinal.replace(/\n/g,"<br>");
+  if(mat){
+    document.getElementById("resultado").innerHTML = materias[mat].completo.replace(/\n/g,"<br>");
   } else {
     document.getElementById("resultado").innerHTML = "Matéria não encontrada no painel.";
   }
@@ -130,18 +110,12 @@ function lerTexto(){
 // --- Botão Prêmio ---
 function mostrarPremio(){ document.getElementById("premiumBox").style.display="block"; }
 function ativarPremium(){
-  const usuario = document.getElementById("usuario").value;
-  if(!usuario){ alert("Digite seu nome primeiro!"); return; }
-  localStorage.setItem("premium_" + usuario,"true");
+  localStorage.setItem("premium","true");
   alert("Premium ativado!");
 }
 
-// --- Se abriu via URL (do index.html), mostrar automaticamente ---
-window.onload = function(){
-  if(new URLSearchParams(window.location.search).get("materia")){
-    mostrarMateria();
-  }
-};
+// --- Mostrar matéria ao abrir ---
+window.onload = mostrarMateria;
 </script>
 </body>
 </html>
