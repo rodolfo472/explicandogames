@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Estudos</title>
+<style>
+body { font-family: Arial; background: #111; color: white; text-align: center; }
+.container { margin-top: 20px; }
+input, textarea { width: 80%; padding: 8px; margin: 5px; }
+textarea { height: 80px; }
+button { padding: 10px 20px; margin: 8px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; }
+.estudar { background: green; color: white; }
+.premio { background: gold; }
+#premiumBox { display: none; background: #222; padding: 15px; margin-top: 15px; }
+#resultado { margin-top: 20px; background: #222; padding: 15px; text-align: left; overflow-y:auto; max-height:400px; }
+</style>
+</head>
+<body>
+
+<h1>📚 Painel de Estudos</h1>
+<div class="container">
+
+<input type="text" id="usuario" placeholder="Digite seu nome"><br>
+<input type="text" id="materiaInput" placeholder="Digite a matéria que deseja estudar"><br>
+<textarea id="perguntaInput" placeholder="Faça uma pergunta sobre a matéria (opcional)"></textarea><br>
+
+<button class="estudar" onclick="mostrarMateria()">Ver Matéria</button>
+<button class="premio" onclick="mostrarPremio()">🎁 Prêmio</button>
+<button onclick="lerTexto()">Lê para mim 🔊</button>
+
+<div id="premiumBox">
+  <h2>Área Premium</h2>
+  <p>Para desbloquear explicações completas de todas as matérias, faça o pagamento via PIX:</p>
+  <img src="2026-02-27-19-12-51-5341505121450286994.jpg" width="200"><br><br>
+  <button onclick="ativarPremium()">Já comprei</button>
+</div>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+// --- Base de matérias do painel.html ---
+const materias = {
+  quimica: {
+    completo: `Química é a ciência que estuda a composição, estrutura e propriedades da matéria, suas transformações e as leis que regem essas mudanças.
+Começou com a alquimia antiga e evoluiu para a química moderna com Lavoisier, que estabeleceu a lei da conservação da massa.
+Inclui química orgânica, inorgânica, físico-química, bioquímica, química analítica e industrial.`
+  },
+  biologia: {
+    completo: `Biologia é a ciência da vida e dos seres vivos, sua estrutura, funcionamento, evolução e interação com o ambiente.
+Estuda desde organismos unicelulares até animais e plantas complexas, genética, ecologia, microbiologia e biotecnologia.
+Inclui também evolução, reprodução, fisiologia, anatomia, comportamento e conservação ambiental.`
+  },
+  filosofia: {
+    completo: `Filosofia estuda questões fundamentais sobre existência, conhecimento, razão, moral, mente e linguagem.
+Desde os filósofos gregos (Sócrates, Platão, Aristóteles) até pensadores modernos como Kant, Nietzsche e Foucault.
+Inclui ética, lógica, metafísica, epistemologia, estética, filosofia política e filosofia da ciência.`
+  },
+  sociologia: {
+    completo: `Sociologia é a ciência que estuda as sociedades, suas estruturas, culturas, instituições e relações humanas.
+Investiga desigualdades sociais, economia, política, religião, família e comportamento coletivo.
+Desde os primeiros sociólogos clássicos como Durkheim, Weber e Marx até abordagens contemporâneas.`
+  },
+  artes: {
+    completo: `Artes estudam a expressão humana por meio de pintura, escultura, música, dança, teatro, cinema e outras formas.
+Analisa movimentos artísticos, técnicas, história da arte e impacto cultural.
+Inclui desde a arte clássica e renascentista até arte contemporânea, digital e audiovisual.`
+  }
+};
+
+// --- Lista de aliases para reconhecer maiúsculas, minúsculas e acentos ---
+const aliases = {
+  quimica: ["quimica","química","chemistry"],
+  biologia: ["biologia","biology","bio"],
+  filosofia: ["filosofia","philosophy","filosofico"],
+  sociologia: ["sociologia","sociology","sociedade"],
+  artes: ["artes","arte","arts"]
+};
+
+// --- Normalizar texto (remove acentos e minúscula) ---
+function normalizar(texto){
+  return texto.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+}
+
+// --- Reconhece matéria mesmo com variações ---
+function reconhecerMateria(texto){
+  const txt = normalizar(texto);
+  for(const mat in aliases){
+    if(aliases[mat].some(a => normalizar(a) === txt)) return mat;
+  }
+  return null;
+}
+
+// --- Mostrar matéria ---
+function mostrarMateria(){
+  let usuario = document.getElementById("usuario").value;
+  let materiaInput = document.getElementById("materiaInput").value;
+  let pergunta = document.getElementById("perguntaInput").value;
+
+  // Se vier da URL (clicado do index.html)
+  const params = new URLSearchParams(window.location.search);
+  if(params.get("usuario")) usuario = params.get("usuario");
+  if(params.get("materia")) materiaInput = params.get("materia");
+
+  if(!usuario || !materiaInput){ alert("Digite seu nome e a matéria!"); return; }
+
+  const mat = reconhecerMateria(materiaInput);
+
+  if(mat){ 
+    const conteudo = materias[mat].completo;
+    let textoFinal = conteudo;
+    if(pergunta) textoFinal += "\n\nPergunta: " + pergunta + "\nResposta: Explicação detalhada.";
+    document.getElementById("resultado").innerHTML = textoFinal.replace(/\n/g,"<br>");
+  } else {
+    document.getElementById("resultado").innerHTML = "Matéria não encontrada no painel.";
+  }
+}
+
+// --- Lê para mim ---
+function lerTexto(){
+  const texto = document.getElementById("resultado").innerText;
+  if(!texto) return;
+  const utter = new SpeechSynthesisUtterance(texto);
+  utter.lang = "pt-BR";
+  speechSynthesis.speak(utter);
+}
+
+// --- Botão Prêmio ---
+function mostrarPremio(){ document.getElementById("premiumBox").style.display="block"; }
+function ativarPremium(){
+  const usuario = document.getElementById("usuario").value;
+  if(!usuario){ alert("Digite seu nome primeiro!"); return; }
+  localStorage.setItem("premium_" + usuario,"true");
+  alert("Premium ativado!");
+}
+
+// --- Se abriu via URL (do index.html), mostrar automaticamente ---
+window.onload = function(){
+  if(new URLSearchParams(window.location.search).get("materia")){
+    mostrarMateria();
+  }
+};
+</script>
+</body>
+</html>
