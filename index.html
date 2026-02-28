@@ -4,56 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estudar Fácil - Login</title>
+
+<!-- Clerk.dev -->
 <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 <script>
   Clerk.load({frontendApi: "https://allowed-duckling-33.clerk.accounts.dev"});
 </script>
+
 <style>
 body { font-family: Arial; background:#111; color:white; text-align:center; }
 .container { max-width: 400px; margin:50px auto; padding:20px; background:#222; border-radius:10px; }
 button { padding:10px 20px; margin:8px; border:none; cursor:pointer; font-size:16px; border-radius:6px; }
 input { padding:10px; margin:10px 0; width:80%; border-radius:6px; border:none; }
+#status { margin-top:10px; color: #0f0; }
 </style>
 </head>
 <body>
 
 <h1>📚 Estudar Fácil</h1>
 <div class="container">
-  <input type="email" id="emailInput" placeholder="Digite seu e-mail"><br>
-  <button onclick="fazerCadastro()">Cadastrar</button>
-  <button onclick="fazerLogin()">Login</button><br>
-  <input type="text" id="codeInput" placeholder="Digite o código recebido"><br>
-  <button onclick="verificarCodigo()">Verificar Código</button>
+
+<input type="email" id="emailInput" placeholder="Digite seu e-mail"><br>
+<button onclick="enviarCodigo()">Enviar Código</button>
+<button onclick="reenviarCodigo()">Reenviar Código</button><br>
+<input type="text" id="codeInput" placeholder="Digite o código recebido"><br>
+<button onclick="verificarCodigo()">Verificar Código</button>
+
+<div id="status"></div>
+<div id="contador"></div>
 </div>
 
 <script>
 let magicLinkSession;
+let contadorInterval;
+let tempoExpiracao = 40; // 40 segundos
 
-async function fazerCadastro(){
+async function enviarCodigo(){
   const email = document.getElementById("emailInput").value;
   if(!email){ alert("Digite seu e-mail"); return; }
-  magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
-  alert("Código enviado para " + email + " (cadastro)");
+  try{
+    magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
+    document.getElementById("status").innerText = "Código enviado para " + email;
+    iniciarContador();
+  }catch(e){
+    document.getElementById("status").innerText = "Erro ao enviar código!";
+    console.error(e);
+  }
 }
 
-async function fazerLogin(){
-  const email = document.getElementById("emailInput").value;
-  if(!email){ alert("Digite seu e-mail"); return; }
-  magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
-  alert("Código enviado para " + email + " (login)");
+async function reenviarCodigo(){
+  if(!document.getElementById("emailInput").value){
+    alert("Digite seu e-mail antes de reenviar!");
+    return;
+  }
+  await enviarCodigo();
+}
+
+function iniciarContador(){
+  clearInterval(contadorInterval);
+  let tempo = tempoExpiracao;
+  document.getElementById("contador").innerText = `Código expira em ${tempo} segundos`;
+  contadorInterval = setInterval(()=>{
+    tempo--;
+    document.getElementById("contador").innerText = `Código expira em ${tempo} segundos`;
+    if(tempo<=0){
+      clearInterval(contadorInterval);
+      document.getElementById("status").innerText = "Código expirou! Reenvie para receber outro.";
+      document.getElementById("contador").innerText = "";
+    }
+  },1000);
 }
 
 async function verificarCodigo(){
   const code = document.getElementById("codeInput").value;
-  if(!code){ alert("Digite o código"); return; }
+  if(!code){ alert("Digite o código!"); return; }
   try{
     const user = await Clerk.magicLinks.consume({token: code});
-    alert("Código correto! Bem-vindo " + (user.firstName || user.emailAddress));
-    window.location.href = "painel.html";
+    if(user.emailAddresses[0].verified){
+      alert("Código correto! Bem-vindo " + (user.firstName || user.emailAddress));
+      window.location.href = "painel.html";
+    } else {
+      alert("E-mail não verificado ainda!");
+    }
   }catch(e){
     alert("Código incorreto ou expirado!");
+    console.error(e);
   }
 }
 </script>
+
 </body>
 </html>
