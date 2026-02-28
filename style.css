@@ -1,0 +1,28 @@
+body {
+  background: #121212;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  cursor: url('cursors/sword.png'), auto; /* cursor default no PC */
+}
+
+a, button {
+  cursor: url('cursors/sword.png'), pointer; /* cursor de clique no PC */
+}
+
+#cursor {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: url('cursors/sword.png') no-repeat center center;
+  background-size: cover;
+  pointer-events: none;
+  display: none; /* aparece só no celular */
+}
+
+.cursor-gallery img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
+}
+
