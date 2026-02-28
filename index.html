@@ -3,95 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estudar Fácil - Login</title>
-
-<!-- Clerk.dev -->
-<script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
-<script>
-  Clerk.load({frontendApi: "https://allowed-duckling-33.clerk.accounts.dev"});
-</script>
-
+<title>Desafios & Conquistas do Dia</title>
 <style>
-body { font-family: Arial; background:#111; color:white; text-align:center; }
-.container { max-width: 400px; margin:50px auto; padding:20px; background:#222; border-radius:10px; }
-button { padding:10px 20px; margin:8px; border:none; cursor:pointer; font-size:16px; border-radius:6px; }
-input { padding:10px; margin:10px 0; width:80%; border-radius:6px; border:none; }
-#status { margin-top:10px; color: #0f0; }
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    header {
+        background: #4a00e0;
+        color: white;
+        padding: 20px;
+        font-size: 24px;
+    }
+    main {
+        padding: 20px;
+    }
+    .mission {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background: #ff5f6d;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #ffc371;
+    }
+    .medals {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .medal {
+        width: 60px;
+        height: 60px;
+        background: gold;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
 </style>
 </head>
 <body>
-
-<h1>📚 Estudar Fácil</h1>
-<div class="container">
-
-<input type="email" id="emailInput" placeholder="Digite seu e-mail"><br>
-<button onclick="enviarCodigo()">Enviar Código</button>
-<button onclick="reenviarCodigo()">Reenviar Código</button><br>
-<input type="text" id="codeInput" placeholder="Digite o código recebido"><br>
-<button onclick="verificarCodigo()">Verificar Código</button>
-
-<div id="status"></div>
-<div id="contador"></div>
-</div>
+<header>Desafios & Conquistas do Dia</header>
+<main>
+    <div class="mission" id="missionText">Carregando missão do dia...</div>
+    <button id="completeBtn">Completar missão</button>
+    <h2>Suas conquistas:</h2>
+    <div class="medals" id="medalsContainer"></div>
+</main>
 
 <script>
-let magicLinkSession;
-let contadorInterval;
-let tempoExpiracao = 40; // 40 segundos
+const missions = [
+    "Descubra uma curiosidade nova sobre o espaço.",
+    "Escreva algo que te fez feliz hoje.",
+    "Resolva um pequeno desafio de lógica: Qual número falta? 2, 4, 6, ?",
+    "Aprenda 3 palavras novas em inglês e memorize-as.",
+    "Compartilhe uma dica de estudo que funciona para você."
+];
 
-async function enviarCodigo(){
-  const email = document.getElementById("emailInput").value;
-  if(!email){ alert("Digite seu e-mail"); return; }
-  try{
-    magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
-    document.getElementById("status").innerText = "Código enviado para " + email;
-    iniciarContador();
-  }catch(e){
-    document.getElementById("status").innerText = "Erro ao enviar código!";
-    console.error(e);
-  }
+function getTodayMission() {
+    const day = new Date().getDate();
+    return missions[day % missions.length];
 }
 
-async function reenviarCodigo(){
-  if(!document.getElementById("emailInput").value){
-    alert("Digite seu e-mail antes de reenviar!");
-    return;
-  }
-  await enviarCodigo();
-}
+const missionText = document.getElementById("missionText");
+const completeBtn = document.getElementById("completeBtn");
+const medalsContainer = document.getElementById("medalsContainer");
 
-function iniciarContador(){
-  clearInterval(contadorInterval);
-  let tempo = tempoExpiracao;
-  document.getElementById("contador").innerText = `Código expira em ${tempo} segundos`;
-  contadorInterval = setInterval(()=>{
-    tempo--;
-    document.getElementById("contador").innerText = `Código expira em ${tempo} segundos`;
-    if(tempo<=0){
-      clearInterval(contadorInterval);
-      document.getElementById("status").innerText = "Código expirou! Reenvie para receber outro.";
-      document.getElementById("contador").innerText = "";
-    }
-  },1000);
-}
+missionText.innerText = getTodayMission();
 
-async function verificarCodigo(){
-  const code = document.getElementById("codeInput").value;
-  if(!code){ alert("Digite o código!"); return; }
-  try{
-    const user = await Clerk.magicLinks.consume({token: code});
-    if(user.emailAddresses[0].verified){
-      alert("Código correto! Bem-vindo " + (user.firstName || user.emailAddress));
-      window.location.href = "painel.html";
-    } else {
-      alert("E-mail não verificado ainda!");
-    }
-  }catch(e){
-    alert("Código incorreto ou expirado!");
-    console.error(e);
-  }
+// Carregar conquistas do localStorage
+let medals = JSON.parse(localStorage.getItem("medals")) || [];
+
+function renderMedals() {
+    medalsContainer.innerHTML = "";
+    medals.forEach((m, index) => {
+        const div = document.createElement("div");
+        div.classList.add("medal");
+        div.innerText = m;
+        medalsContainer.appendChild(div);
+    });
 }
+renderMedals();
+
+// Completar missão
+completeBtn.addEventListener("click", () => {
+    const newMedal = "★";
+    medals.push(newMedal);
+    localStorage.setItem("medals", JSON.stringify(medals));
+    renderMedals();
+    alert("Missão completada! Você ganhou uma medalha ⭐");
+});
 </script>
-
 </body>
 </html>
