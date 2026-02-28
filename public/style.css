@@ -1,0 +1,27 @@
+/* Cursor normal do site */
+body {
+  cursor: url('cursors/sword.png'), auto;
+  background: #121212;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Cursor de link (quando aparece a mãozinha de clicar) */
+a, button {
+  cursor: url('cursors/sword.png'), pointer;
+}
+
+/* Opcional: links e botões para testar */
+a {
+  color: #4CAF50;
+  text-decoration: none;
+  margin: 20px;
+  display: inline-block;
+  font-size: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 20px;
+}
