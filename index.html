@@ -3,143 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma de Estudos</title>
+<title>Estudar Fácil - Login</title>
+
+<!-- Clerk.dev JS -->
+<script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+<script>
+  // Cole aqui a sua Frontend API URL do Clerk
+  Clerk.load({frontendApi: "https://allowed-duckling-33.clerk.accounts.dev"});
+</script>
+
 <style>
-body { font-family: Arial; background: #111; color: white; text-align: center; }
-.container { margin-top: 20px; }
-input, textarea { width: 80%; padding: 8px; margin: 5px; }
-textarea { height: 80px; }
+body { font-family: Arial; background: #111; color: white; text-align: center; margin: 0; padding: 0; }
+.container { max-width: 400px; margin: 50px auto; padding: 20px; background: #222; border-radius: 10px; }
 button { padding: 10px 20px; margin: 8px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; }
-.estudar { background: green; color: white; }
-.premio { background: gold; }
-#premiumBox { display: none; background: #222; padding: 15px; margin-top: 15px; }
-#resultado { margin-top: 20px; background: #222; padding: 15px; text-align: left; overflow-y:auto; max-height:400px; }
-#ranking { margin-top: 20px; background: #222; padding: 10px; }
+h1 { margin-bottom: 20px; }
 </style>
 </head>
 <body>
 
-<h1>📚 Plataforma de Estudos</h1>
+<h1>📚 Estudar Fácil</h1>
 <div class="container">
 
-<input type="text" id="usuario" placeholder="Digite seu nome"><br>
-<input type="text" id="materiaInput" placeholder="Digite a matéria que deseja estudar"><br>
-<textarea id="perguntaInput" placeholder="Faça uma pergunta sobre a matéria (opcional)"></textarea><br>
+<!-- Área do Clerk -->
+<div id="clerk-root">
+  <!-- Sign up / Cadastro -->
+  <clerk-sign-up></clerk-sign-up>
 
-<button class="estudar" onclick="mostrarMateria()">Ver Matéria</button>
-<button class="premio" onclick="mostrarPremio()">🎁 Prêmio</button>
-<button onclick="lerTexto()">Lê para mim 🔊</button>
+  <hr style="margin:20px 0; border-color:#444;">
 
-<div id="premiumBox">
-  <h2>Área Premium</h2>
-  <p>Para desbloquear explicações completas de todas as matérias, faça o pagamento via PIX:</p>
-  <img src="2026-02-27-19-12-51-5341505121450286994.jpg" width="200"><br><br>
-  <button onclick="ativarPremium()">Já comprei</button>
-</div>
+  <!-- Sign in / Login -->
+  <clerk-sign-in></clerk-sign-in>
 
-<div id="resultado"></div>
-
-<div id="ranking">
-  <h3>🏆 Ranking Local</h3>
-  <div id="listaRanking"></div>
+  <!-- Botão de usuário logado (mostra nome e logout) -->
+  <clerk-user-button></clerk-user-button>
 </div>
 
 </div>
 
 <script>
-// --- Base de matérias do index.html (5 matérias) ---
-const materias = {
-  matematica: {
-    completo: `Matemática é a ciência que estuda padrões, números, formas, estruturas e relações.
-Desde os tempos da Mesopotâmia e do Egito Antigo, surgiram os primeiros sistemas de contagem e geometria.
-Na Grécia, Pitágoras e Euclides desenvolveram a geometria clássica. No Renascimento surgiram cálculos infinitesimais.
-Hoje inclui aritmética, álgebra, geometria, trigonometria, cálculo, estatística, probabilidade e lógica.`
-  },
-  portugues: {
-    completo: `Português estuda a língua falada e escrita em Portugal e Brasil.
-Origem no latim vulgar trazido pelos romanos, evoluindo com influências de grego, árabe e línguas indígenas.
-Inclui gramática, ortografia, sintaxe, morfologia, fonética, semântica, literatura e redação.
-Abrange desde clássicos até autores contemporâneos.`
-  },
-  historia: {
-    completo: `História é a ciência que estuda o passado da humanidade.
-Desde Mesopotâmia e Egito, passando por Grécia, Roma, Idade Média, Renascimento, Revolução Industrial até os dias atuais.
-Analisa eventos, sociedades, governos, guerras, revoluções e transformações sociais.`
-  },
-  geografia: {
-    completo: `Geografia estuda o planeta, clima, relevo, vegetação, recursos naturais e população.
-Inclui geografia física e humana, cartografia, economia, urbanização e impactos ambientais.
-Permite entender como humanos interagem com o ambiente e planejam o futuro.`
-  },
-  fisica: {
-    completo: `Física estuda matéria, energia, movimento, forças, luz e som.
-Da mecânica clássica de Galileu e Newton à termodinâmica, eletromagnetismo, relatividade e física quântica.
-Fundamental para engenharia, astronomia, tecnologia e compreensão do universo.`
-  }
-};
+  // Checa se o usuário está logado
+  Clerk.onAuth(() => {
+    const user = Clerk.user;
+    if(user){
+      console.log("Usuário logado:", user.emailAddress, "Verified:", user.emailAddresses[0].verified);
 
-// --- Lista de aliases para reconhecer maiúsculas, minúsculas e acentos ---
-const aliases = {
-  matematica: ["matematica","matemática","matematics"],
-  portugues: ["portugues","português","lingua portuguesa"],
-  historia: ["historia","história","historico"],
-  geografia: ["geografia","geographia","geografico"],
-  fisica: ["fisica","física","fizica"]
-};
-
-// --- Normalizar texto (remover acentos, minúscula) ---
-function normalizar(texto){
-  return texto.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-}
-
-// --- Reconhece matéria mesmo com variações ---
-function reconhecerMateria(texto){
-  const txt = normalizar(texto);
-  for(const mat in aliases){
-    if(aliases[mat].some(a => normalizar(a) === txt)) return mat;
-  }
-  return null;
-}
-
-// --- Mostrar matéria ---
-function mostrarMateria(){
-  const usuario = document.getElementById("usuario").value;
-  const materiaInput = document.getElementById("materiaInput").value;
-  const pergunta = document.getElementById("perguntaInput").value;
-
-  if(!usuario || !materiaInput){ alert("Digite seu nome e a matéria!"); return; }
-
-  const mat = reconhecerMateria(materiaInput);
-
-  if(mat){ 
-    // Matéria do index.html
-    const conteudo = materias[mat].completo;
-    let textoFinal = conteudo;
-    if(pergunta) textoFinal += "\n\nPergunta: " + pergunta + "\nResposta: Explicação detalhada.";
-    document.getElementById("resultado").innerHTML = textoFinal.replace(/\n/g,"<br>");
-  } else {
-    // Se não estiver no index, vai pro painel.html
-    window.open("painel.html?materia=" + encodeURIComponent(materiaInput) + "&usuario=" + encodeURIComponent(usuario), "_blank");
-  }
-}
-
-// --- Lê para mim ---
-function lerTexto(){
-  const texto = document.getElementById("resultado").innerText;
-  if(!texto) return;
-  const utter = new SpeechSynthesisUtterance(texto);
-  utter.lang = "pt-BR";
-  speechSynthesis.speak(utter);
-}
-
-// --- Botão Prêmio ---
-function mostrarPremio(){ document.getElementById("premiumBox").style.display="block"; }
-function ativarPremium(){
-  const usuario = document.getElementById("usuario").value;
-  if(!usuario){ alert("Digite seu nome primeiro!"); return; }
-  localStorage.setItem("premium_" + usuario,"true");
-  alert("Premium ativado!");
-}
+      // Só deixa acessar o painel se o e-mail estiver verificado
+      if(user.emailAddresses[0].verified){
+        // Redireciona pro painel de estudos
+        window.location.href = "painel.html?user=" + encodeURIComponent(user.firstName || user.emailAddress);
+      } else {
+        alert("Verifique seu e-mail antes de acessar o painel!");
+      }
+    }
+  });
 </script>
+
 </body>
 </html>
