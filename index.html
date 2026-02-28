@@ -4,59 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estudar Fácil - Login</title>
-
-<!-- Clerk.dev JS -->
 <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 <script>
-  // Cole aqui a sua Frontend API URL do Clerk
   Clerk.load({frontendApi: "https://allowed-duckling-33.clerk.accounts.dev"});
 </script>
-
 <style>
-body { font-family: Arial; background: #111; color: white; text-align: center; margin: 0; padding: 0; }
-.container { max-width: 400px; margin: 50px auto; padding: 20px; background: #222; border-radius: 10px; }
-button { padding: 10px 20px; margin: 8px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; }
-h1 { margin-bottom: 20px; }
+body { font-family: Arial; background:#111; color:white; text-align:center; }
+.container { max-width: 400px; margin:50px auto; padding:20px; background:#222; border-radius:10px; }
+button { padding:10px 20px; margin:8px; border:none; cursor:pointer; font-size:16px; border-radius:6px; }
+input { padding:10px; margin:10px 0; width:80%; border-radius:6px; border:none; }
 </style>
 </head>
 <body>
 
 <h1>📚 Estudar Fácil</h1>
 <div class="container">
-
-<!-- Área do Clerk -->
-<div id="clerk-root">
-  <!-- Sign up / Cadastro -->
-  <clerk-sign-up></clerk-sign-up>
-
-  <hr style="margin:20px 0; border-color:#444;">
-
-  <!-- Sign in / Login -->
-  <clerk-sign-in></clerk-sign-in>
-
-  <!-- Botão de usuário logado (mostra nome e logout) -->
-  <clerk-user-button></clerk-user-button>
-</div>
-
+  <input type="email" id="emailInput" placeholder="Digite seu e-mail"><br>
+  <button onclick="fazerCadastro()">Cadastrar</button>
+  <button onclick="fazerLogin()">Login</button><br>
+  <input type="text" id="codeInput" placeholder="Digite o código recebido"><br>
+  <button onclick="verificarCodigo()">Verificar Código</button>
 </div>
 
 <script>
-  // Checa se o usuário está logado
-  Clerk.onAuth(() => {
-    const user = Clerk.user;
-    if(user){
-      console.log("Usuário logado:", user.emailAddress, "Verified:", user.emailAddresses[0].verified);
+let magicLinkSession;
 
-      // Só deixa acessar o painel se o e-mail estiver verificado
-      if(user.emailAddresses[0].verified){
-        // Redireciona pro painel de estudos
-        window.location.href = "painel.html?user=" + encodeURIComponent(user.firstName || user.emailAddress);
-      } else {
-        alert("Verifique seu e-mail antes de acessar o painel!");
-      }
-    }
-  });
+async function fazerCadastro(){
+  const email = document.getElementById("emailInput").value;
+  if(!email){ alert("Digite seu e-mail"); return; }
+  magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
+  alert("Código enviado para " + email + " (cadastro)");
+}
+
+async function fazerLogin(){
+  const email = document.getElementById("emailInput").value;
+  if(!email){ alert("Digite seu e-mail"); return; }
+  magicLinkSession = await Clerk.magicLinks.create({emailAddress: email});
+  alert("Código enviado para " + email + " (login)");
+}
+
+async function verificarCodigo(){
+  const code = document.getElementById("codeInput").value;
+  if(!code){ alert("Digite o código"); return; }
+  try{
+    const user = await Clerk.magicLinks.consume({token: code});
+    alert("Código correto! Bem-vindo " + (user.firstName || user.emailAddress));
+    window.location.href = "painel.html";
+  }catch(e){
+    alert("Código incorreto ou expirado!");
+  }
+}
 </script>
-
 </body>
 </html>
