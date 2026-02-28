@@ -1,27 +1,27 @@
-/* Cursor normal do site */
 body {
-  cursor: url('cursors/sword.png'), auto;
   background: #121212;
   color: #fff;
   font-family: Arial, sans-serif;
+  cursor: url('cursors/sword.png'), auto; /* cursor default no PC */
 }
 
-/* Cursor de link (quando aparece a mãozinha de clicar) */
 a, button {
-  cursor: url('cursors/sword.png'), pointer;
+  cursor: url('cursors/sword.png'), pointer; /* cursor de clique no PC */
 }
 
-/* Opcional: links e botões para testar */
-a {
-  color: #4CAF50;
-  text-decoration: none;
-  margin: 20px;
-  display: inline-block;
-  font-size: 20px;
+#cursor {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: url('cursors/sword.png') no-repeat center center;
+  background-size: cover;
+  pointer-events: none;
+  display: none; /* aparece só no celular */
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  margin: 20px;
+.cursor-gallery img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
 }
