@@ -3,218 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CineRodolfo 2026</title>
+<title>IA Estudo Inteligente</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #121212;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-    header {
-        background: #e50914;
-        padding: 20px;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    main {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        padding: 20px;
-    }
-    .movie-card {
-        background: #1c1c1c;
-        width: 300px;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(255,0,0,0.5);
-        margin-bottom: 20px;
-    }
-    .movie-card img {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-    }
-    .movie-info {
-        padding: 15px;
-        text-align: center;
-    }
-    .movie-info h3 {
-        margin: 10px 0;
-        font-size: 20px;
-    }
-    .movie-info p {
-        font-size: 14px;
-        color: #ccc;
-        margin-bottom: 10px;
-    }
-    video {
-        width: 100%;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
+body { font-family: Arial; background:#121212; color:white; margin:0; }
+header { background:#6a00ff; padding:15px; text-align:center; font-size:22px; }
+.chat { height:70vh; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:10px; }
+.message { max-width:80%; padding:10px; border-radius:8px; }
+.user { background:#00c3ff; align-self:flex-end; }
+.bot { background:#333; align-self:flex-start; }
+.input-area { position:fixed; bottom:0; width:100%; display:flex; gap:5px; padding:10px; background:#1c1c1c; }
+input[type=text] { flex:1; padding:10px; border-radius:8px; border:none; }
+button { padding:10px; border-radius:8px; border:none; cursor:pointer; }
+.plus { background:#444; color:white; }
+.study-btn { background:#00ff95; }
+.send { background:#6a00ff; color:white; }
+#studyMenu { display:none; position:fixed; bottom:60px; width:100%; background:#222; padding:10px; }
+select { width:100%; padding:8px; }
 </style>
 </head>
 <body>
-<header>CineRodolfo 2026</header>
-<main>
-    <!-- FILMES CRIANÇAS -->
-    <div class="movie-card">
-        <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Cheburashka2Poster.jpg" alt="Cheburashka 2">
-        <div class="movie-info">
-            <h3>Cheburashka 2 (2026)</h3>
-            <p>Animação divertida para crianças e famílias.</p>
-            <video controls>
-                <source src="cheburashka2.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-elementos-magicos.jpg" alt="Elementos Mágicos">
-        <div class="movie-info">
-            <h3>Elementos Mágicos (2026)</h3>
-            <p>Aventura e fantasia para toda a família.</p>
-            <video controls>
-                <source src="elementos-magicos.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-robozinhos.jpg" alt="Robozinhos no Espaço">
-        <div class="movie-info">
-            <h3>Robozinhos no Espaço (2026)</h3>
-            <p>Animação sci-fi divertida para crianças.</p>
-            <video controls>
-                <source src="robozinhos.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-aventura-dino.jpg" alt="Aventura Dino">
-        <div class="movie-info">
-            <h3>Aventura Dino (2026)</h3>
-            <p>Aventura divertida para todas as idades.</p>
-            <video controls>
-                <source src="aventura-dino.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-mundo-magico.jpg" alt="Mundo Mágico">
-        <div class="movie-info">
-            <h3>Mundo Mágico (2026)</h3>
-            <p>Filme mágico e educativo para crianças.</p>
-            <video controls>
-                <source src="mundo-magico.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
 
-    <!-- FILMES ADULTOS -->
-    <div class="movie-card">
-        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/28YearsLaterPoster.jpg" alt="28 Years Later: The Bone Temple">
-        <div class="movie-info">
-            <h3>28 Years Later: The Bone Temple (2026)</h3>
-            <p>Suspense/Thriller para adultos.</p>
-            <video controls>
-                <source src="28yearslater.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-sendhelp.jpg" alt="Send Help">
-        <div class="movie-info">
-            <h3>Send Help (2026)</h3>
-            <p>Thriller/Ação para adultos.</p>
-            <video controls>
-                <source src="sendhelp.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-interestelar2.jpg" alt="Interestelar 2">
-        <div class="movie-info">
-            <h3>Interestelar 2 (2026)</h3>
-            <p>Sci-fi épico para adultos.</p>
-            <video controls>
-                <source src="interestelar2.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-apocalipse.jpg" alt="Apocalipse Final">
-        <div class="movie-info">
-            <h3>Apocalipse Final (2026)</h3>
-            <p>Ação e suspense para adultos.</p>
-            <video controls>
-                <source src="apocalipse-final.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-misterio-selvagem.jpg" alt="Mistério Selvagem">
-        <div class="movie-info">
-            <h3>Mistério Selvagem (2026)</h3>
-            <p>Suspense intrigante para adultos.</p>
-            <video controls>
-                <source src="misterio-selvagem.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-guerra-estelar.jpg" alt="Guerra Estelar">
-        <div class="movie-info">
-            <h3>Guerra Estelar (2026)</h3>
-            <p>Sci-fi e aventura para adultos.</p>
-            <video controls>
-                <source src="guerra-estelar.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-crime-noite.jpg" alt="Crime da Noite">
-        <div class="movie-info">
-            <h3>Crime da Noite (2026)</h3>
-            <p>Suspense policial para adultos.</p>
-            <video controls>
-                <source src="crime-noite.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-drama-historia.jpg" alt="Drama História">
-        <div class="movie-info">
-            <h3>Drama História (2026)</h3>
-            <p>Drama envolvente para adultos.</p>
-            <video controls>
-                <source src="drama-historia.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-aventura-extrema.jpg" alt="Aventura Extrema">
-        <div class="movie-info">
-            <h3>Aventura Extrema (2026)</h3>
-            <p>Ação e aventura para todos os públicos.</p>
-            <video controls>
-                <source src="aventura-extrema.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-    <div class="movie-card">
-        <img src="poster-fantasia-real.jpg" alt="Fantasia Real">
-        <div class="movie-info">
-            <h3>Fantasia Real (2026)</h3>
-            <p>Fantasia envolvente para todos os públicos.</p>
-            <video controls>
-                <source src="fantasia-real.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-</main>
+<header>IA Estudo Inteligente 🤖📚</header>
+
+<div class="chat" id="chat"></div>
+
+<div id="studyMenu">
+    <select id="subject">
+        <option value="">Escolha a matéria</option>
+        <option value="matematica">Matemática</option>
+        <option value="portugues">Português</option>
+        <option value="historia">História</option>
+        <option value="ciencias">Ciências</option>
+        <option value="ingles">Inglês</option>
+        <option value="geografia">Geografia</option>
+    </select>
+</div>
+
+<div class="input-area">
+    <button class="plus" onclick="anexar()">+</button>
+    <button class="study-btn" onclick="abrirEstudo()">Estudar</button>
+    <input type="text" id="pergunta" placeholder="Digite sua pergunta...">
+    <button class="send" onclick="responder()">Enviar</button>
+</div>
+
+<script>
+let materiaAtual = "";
+
+function abrirEstudo() {
+    const menu = document.getElementById("studyMenu");
+    menu.style.display = menu.style.display==="none"?"block":"none";
+}
+
+document.getElementById("subject").addEventListener("change", function(){
+    materiaAtual = this.value;
+    adicionarMensagem("bot","Modo estudo ativado para: "+materiaAtual);
+});
+
+function anexar(){ alert("Aqui você poderá enviar fotos e arquivos no futuro 📎"); }
+
+function adicionarMensagem(tipo,texto){
+    const chat = document.getElementById("chat");
+    const div = document.createElement("div");
+    div.classList.add("message",tipo);
+    div.innerText = texto;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+async function responder(){
+    const input = document.getElementById("pergunta");
+    const texto = input.value;
+    if(!texto) return;
+    adicionarMensagem("user",texto);
+
+    if(!materiaAtual){
+        adicionarMensagem("bot","Escolha uma matéria no botão Estudar 📚");
+        input.value="";
+        return;
+    }
+
+    // ⚡ Aqui chamamos a API da OpenAI
+    try{
+        const resposta = await fetch("https://api.openai.com/v1/chat/completions",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer SEU_API_KEY_AQUI" // coloque sua API Key
+            },
+            body:JSON.stringify({
+                model:"gpt-3.5-turbo",
+                messages:[
+                    {role:"system", content:"Você é um professor especialista em "+materiaAtual+" e responde detalhadamente e de forma clara."},
+                    {role:"user", content:texto}
+                ],
+                max_tokens:600
+            })
+        });
+
+        const data = await resposta.json();
+        const reply = data.choices[0].message.content;
+        adicionarMensagem("bot",reply);
+
+    }catch(err){
+        console.error(err);
+        adicionarMensagem("bot","Erro ao consultar a IA. Tente novamente.");
+    }
+
+    input.value="";
+}
+</script>
+
 </body>
-                                            </html>
+</html>
