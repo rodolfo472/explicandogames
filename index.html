@@ -3,117 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafios & Conquistas do Dia</title>
+<title>CineRodolfo 2026</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        background: #121212;
+        color: #fff;
         margin: 0;
         padding: 0;
         text-align: center;
     }
     header {
-        background: #4a00e0;
-        color: white;
+        background: #e50914;
         padding: 20px;
-        font-size: 24px;
+        font-size: 28px;
+        font-weight: bold;
     }
     main {
-        padding: 20px;
-    }
-    .mission {
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        font-size: 18px;
-    }
-    button {
-        padding: 10px 20px;
-        font-size: 18px;
-        background: #ff5f6d;
-        border: none;
-        border-radius: 10px;
-        color: white;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    button:hover {
-        background: #ffc371;
-    }
-    .medals {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 20px;
+        padding: 20px;
     }
-    .medal {
-        width: 60px;
-        height: 60px;
-        background: gold;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: white;
+    .movie-card {
+        background: #1c1c1c;
+        width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(255,0,0,0.5);
+        margin-bottom: 20px;
+    }
+    .movie-card img {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+    }
+    .movie-info {
+        padding: 15px;
+        text-align: center;
+    }
+    .movie-info h3 {
+        margin: 10px 0;
         font-size: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .movie-info p {
+        font-size: 14px;
+        color: #ccc;
+        margin-bottom: 10px;
+    }
+    video {
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
 </style>
 </head>
 <body>
-<header>Desafios & Conquistas do Dia</header>
+<header>CineRodolfo 2026</header>
 <main>
-    <div class="mission" id="missionText">Carregando missão do dia...</div>
-    <button id="completeBtn">Completar missão</button>
-    <h2>Suas conquistas:</h2>
-    <div class="medals" id="medalsContainer"></div>
+    <!-- FILMES CRIANÇAS -->
+    <div class="movie-card">
+        <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Cheburashka2Poster.jpg" alt="Cheburashka 2">
+        <div class="movie-info">
+            <h3>Cheburashka 2 (2026)</h3>
+            <p>Animação divertida para crianças e famílias.</p>
+            <video controls>
+                <source src="cheburashka2.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-elementos-magicos.jpg" alt="Elementos Mágicos">
+        <div class="movie-info">
+            <h3>Elementos Mágicos (2026)</h3>
+            <p>Aventura e fantasia para toda a família.</p>
+            <video controls>
+                <source src="elementos-magicos.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-robozinhos.jpg" alt="Robozinhos no Espaço">
+        <div class="movie-info">
+            <h3>Robozinhos no Espaço (2026)</h3>
+            <p>Animação sci-fi divertida para crianças.</p>
+            <video controls>
+                <source src="robozinhos.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-aventura-dino.jpg" alt="Aventura Dino">
+        <div class="movie-info">
+            <h3>Aventura Dino (2026)</h3>
+            <p>Aventura divertida para todas as idades.</p>
+            <video controls>
+                <source src="aventura-dino.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-mundo-magico.jpg" alt="Mundo Mágico">
+        <div class="movie-info">
+            <h3>Mundo Mágico (2026)</h3>
+            <p>Filme mágico e educativo para crianças.</p>
+            <video controls>
+                <source src="mundo-magico.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <!-- FILMES ADULTOS -->
+    <div class="movie-card">
+        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/28YearsLaterPoster.jpg" alt="28 Years Later: The Bone Temple">
+        <div class="movie-info">
+            <h3>28 Years Later: The Bone Temple (2026)</h3>
+            <p>Suspense/Thriller para adultos.</p>
+            <video controls>
+                <source src="28yearslater.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-sendhelp.jpg" alt="Send Help">
+        <div class="movie-info">
+            <h3>Send Help (2026)</h3>
+            <p>Thriller/Ação para adultos.</p>
+            <video controls>
+                <source src="sendhelp.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-interestelar2.jpg" alt="Interestelar 2">
+        <div class="movie-info">
+            <h3>Interestelar 2 (2026)</h3>
+            <p>Sci-fi épico para adultos.</p>
+            <video controls>
+                <source src="interestelar2.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-apocalipse.jpg" alt="Apocalipse Final">
+        <div class="movie-info">
+            <h3>Apocalipse Final (2026)</h3>
+            <p>Ação e suspense para adultos.</p>
+            <video controls>
+                <source src="apocalipse-final.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-misterio-selvagem.jpg" alt="Mistério Selvagem">
+        <div class="movie-info">
+            <h3>Mistério Selvagem (2026)</h3>
+            <p>Suspense intrigante para adultos.</p>
+            <video controls>
+                <source src="misterio-selvagem.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-guerra-estelar.jpg" alt="Guerra Estelar">
+        <div class="movie-info">
+            <h3>Guerra Estelar (2026)</h3>
+            <p>Sci-fi e aventura para adultos.</p>
+            <video controls>
+                <source src="guerra-estelar.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-crime-noite.jpg" alt="Crime da Noite">
+        <div class="movie-info">
+            <h3>Crime da Noite (2026)</h3>
+            <p>Suspense policial para adultos.</p>
+            <video controls>
+                <source src="crime-noite.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-drama-historia.jpg" alt="Drama História">
+        <div class="movie-info">
+            <h3>Drama História (2026)</h3>
+            <p>Drama envolvente para adultos.</p>
+            <video controls>
+                <source src="drama-historia.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-aventura-extrema.jpg" alt="Aventura Extrema">
+        <div class="movie-info">
+            <h3>Aventura Extrema (2026)</h3>
+            <p>Ação e aventura para todos os públicos.</p>
+            <video controls>
+                <source src="aventura-extrema.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="poster-fantasia-real.jpg" alt="Fantasia Real">
+        <div class="movie-info">
+            <h3>Fantasia Real (2026)</h3>
+            <p>Fantasia envolvente para todos os públicos.</p>
+            <video controls>
+                <source src="fantasia-real.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
 </main>
-
-<script>
-const missions = [
-    "Descubra uma curiosidade nova sobre o espaço.",
-    "Escreva algo que te fez feliz hoje.",
-    "Resolva um pequeno desafio de lógica: Qual número falta? 2, 4, 6, ?",
-    "Aprenda 3 palavras novas em inglês e memorize-as.",
-    "Compartilhe uma dica de estudo que funciona para você."
-];
-
-function getTodayMission() {
-    const day = new Date().getDate();
-    return missions[day % missions.length];
-}
-
-const missionText = document.getElementById("missionText");
-const completeBtn = document.getElementById("completeBtn");
-const medalsContainer = document.getElementById("medalsContainer");
-
-missionText.innerText = getTodayMission();
-
-// Carregar conquistas do localStorage
-let medals = JSON.parse(localStorage.getItem("medals")) || [];
-
-function renderMedals() {
-    medalsContainer.innerHTML = "";
-    medals.forEach((m, index) => {
-        const div = document.createElement("div");
-        div.classList.add("medal");
-        div.innerText = m;
-        medalsContainer.appendChild(div);
-    });
-}
-renderMedals();
-
-// Completar missão
-completeBtn.addEventListener("click", () => {
-    const newMedal = "★";
-    medals.push(newMedal);
-    localStorage.setItem("medals", JSON.stringify(medals));
-    renderMedals();
-    alert("Missão completada! Você ganhou uma medalha ⭐");
-});
-</script>
 </body>
-</html>
+                                            </html>
