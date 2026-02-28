@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(express.static("public")); // Serve index.html e painel.html da pasta public
 
 // Substitua pela sua API KEY do Clerk
-const CLERK_API_KEY = "SUA_API_KEY_DO_CLERK";
+const CLERK_API_KEY = "https://api.clerk.dev/v1/magic_links/consume";
 
 // Rota para enviar magic link/email OTP
 app.post("/send-code", async (req, res) => {
