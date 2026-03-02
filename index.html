@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Cursor Mobile + PC</title>
+  <title>catch the ball</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Escolha seu cursor!</h1>
 
-  <div id="cursor"></div>
+<div id="menu">
+  <div class="player idle"></div>
+  <button id="startBtn">COMEÇAR</button>
+</div>
 
-  <div class="cursor-gallery">
-    <img src="cursors/sword.png" onclick="setCursor('sword.png')" alt="Espada">
-    <img src="cursors/axe.png" onclick="setCursor('axe.png')" alt="Machado">
-  </div>
+<div id="game" class="hidden">
+  <div class="track"></div>
+  <div class="player run"></div>
+  <div id="score">0</div>
+</div>
 
-  <a href="#">Link de teste</a>
-  <button>Botão de teste</button>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
-
