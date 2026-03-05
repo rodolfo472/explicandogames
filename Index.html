@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>WebBrother</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="browser">
+
+<!-- Abas -->
+<div class="tabs">
+<button class="tab active">Nova Aba</button>
+<button id="newTab">+</button>
+</div>
+
+<!-- Barra de navegação -->
+<div class="navbar">
+
+<button id="back">⬅</button>
+<button id="forward">➡</button>
+<button id="reload">⟳</button>
+
+<input id="url" placeholder="Pesquisar ou digitar URL">
+
+<button id="favorite">⭐</button>
+<button id="settings">⚙</button>
+
+</div>
+
+<!-- Tela inicial -->
+<div id="home">
+
+<h1>WebBrother</h1>
+
+<input id="searchHome" placeholder="Pesquisar na internet">
+
+<div class="shortcuts">
+
+<button onclick="openSite('https://www.google.com')">Google</button>
+<button onclick="openSite('https://www.youtube.com')">YouTube</button>
+<button onclick="openSite('https://www.instagram.com')">Instagram</button>
+
+</div>
+
+</div>
+
+<!-- Área do navegador -->
+<iframe id="browser"></iframe>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
