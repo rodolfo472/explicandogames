@@ -1,58 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>WebBrother</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>LEVELKILL</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "nipplejs": "https://esm.sh/nipplejs@0.9.0"
+    }
+  }
+  </script>
 </head>
-
 <body>
+  <div id="app">
+    <canvas id="game" width="960" height="540"></canvas>
 
-<div class="browser">
+    <!-- UI layers -->
+    <div id="ui">
+      <div id="startScreen" class="overlay">
+        <h1>LEVELKILL</h1>
+        <button id="playBtn" class="big">JOGAR</button>
+      </div>
 
-<!-- Abas -->
-<div class="tabs">
-<button class="tab active">Nova Aba</button>
-<button id="newTab">+</button>
-</div>
+      <div id="hud" class="hidden">
+        <div id="levelText">Level 1</div>
+        <div id="swordCount">Espada: 0</div>
+      </div>
 
-<!-- Barra de navegação -->
-<div class="navbar">
+      <div id="gameOver" class="overlay hidden">
+        <h2>GAME OVER</h2>
+        <button id="retryBtn" class="big">REINICIAR</button>
+      </div>
 
-<button id="back">⬅</button>
-<button id="forward">➡</button>
-<button id="reload">⟳</button>
+      <!-- mobile controls -->
+      <div id="mobileControls" class="hidden" aria-hidden="true">
+        <div id="leftBtn" class="touchBtn">◀</div>
+        <div id="rightBtn" class="touchBtn">▶</div>
+      </div>
 
-<input id="url" placeholder="Pesquisar ou digitar URL">
+      <!-- jump button moved to bottom-right -->
+      <div id="jumpBtn" class="touchBtn hidden" aria-hidden="true">▲</div>
+    </div>
+  </div>
 
-<button id="favorite">⭐</button>
-<button id="settings">⚙</button>
-
-</div>
-
-<!-- Tela inicial -->
-<div id="home">
-
-<h1>WebBrother</h1>
-
-<input id="searchHome" placeholder="Pesquisar na internet">
-
-<div class="shortcuts">
-
-<button onclick="openSite('https://www.google.com')">Google</button>
-<button onclick="openSite('https://www.youtube.com')">YouTube</button>
-<button onclick="openSite('https://www.instagram.com')">Instagram</button>
-
-</div>
-
-</div>
-
-<!-- Área do navegador -->
-<iframe id="browser"></iframe>
-
-</div>
-
-<script src="script.js"></script>
-
+  <script type="module" src="main.js"></script>
 </body>
 </html>
