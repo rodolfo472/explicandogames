@@ -3,48 +3,66 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>LEVELKILL</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="importmap">
-  {
-    "imports": {
-      "nipplejs": "https://esm.sh/nipplejs@0.9.0"
-    }
-  }
-  </script>
+  <title>Gelatinas do Rodolfo - Pedidos 🍧</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="app">
-    <canvas id="game" width="960" height="540"></canvas>
-
-    <!-- UI layers -->
-    <div id="ui">
-      <div id="startScreen" class="overlay">
-        <h1>LEVELKILL</h1>
-        <button id="playBtn" class="big">JOGAR</button>
+  <main class="app">
+    <header class="brand">
+      <div class="logo">🍧</div>
+      <div class="title">
+        <div class="name">Gelatinas do Rodolfo</div>
+        <div class="subtitle">Pedidos</div>
       </div>
+    </header>
 
-      <div id="hud" class="hidden">
-        <div id="levelText">Level 1</div>
-        <div id="swordCount">Espada: 0</div>
+    <section class="hero">
+      <p class="tagline">Gelatinas artesanais — escolha sabores e horário</p>
+      <button id="openOrderBtn" class="big-btn">Fazer Pedido</button>
+    </section>
+
+    <section class="orders-summary" aria-live="polite">
+      <h3>Pedidos recentes</h3>
+      <ul id="recentOrders" class="list"></ul>
+    </section>
+
+    <!-- Modal / Bottom sheet style form -->
+    <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true">
+      <div class="sheet">
+        <div class="sheet-header">
+          <strong>Novo pedido</strong>
+          <button id="closeBtn" class="icon-btn" aria-label="Fechar">✕</button>
+        </div>
+
+        <form id="orderForm" class="form">
+          <label class="field">
+            <span>Nome do cliente</span>
+            <input id="clientName" name="clientName" type="text" placeholder="Seu nome" required />
+          </label>
+
+          <div class="field">
+            <span>Sabores</span>
+            <div id="flavorsContainer" class="chips"></div>
+            <small id="noFlavors" class="muted">Nenhum sabor disponível</small>
+          </div>
+
+          <div class="field">
+            <span>Horários</span>
+            <div id="timesContainer" class="times"></div>
+            <small id="noTimes" class="muted">Nenhum horário disponível</small>
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="submitBtn" class="big-btn primary">Enviar pedido</button>
+            <button type="button" id="cancelBtn" class="big-btn secondary">Cancelar</button>
+          </div>
+        </form>
       </div>
-
-      <div id="gameOver" class="overlay hidden">
-        <h2>GAME OVER</h2>
-        <button id="retryBtn" class="big">REINICIAR</button>
-      </div>
-
-      <!-- mobile controls -->
-      <div id="mobileControls" class="hidden" aria-hidden="true">
-        <div id="leftBtn" class="touchBtn">◀</div>
-        <div id="rightBtn" class="touchBtn">▶</div>
-      </div>
-
-      <!-- jump button moved to bottom-right -->
-      <div id="jumpBtn" class="touchBtn hidden" aria-hidden="true">▲</div>
     </div>
-  </div>
 
-  <script type="module" src="main.js"></script>
+    <div id="toast" class="toast hidden" role="status"></div>
+  </main>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
