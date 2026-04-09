@@ -1,46 +1,163 @@
 :root{
-  --bg:#0b66cc;
-  --platform:#dfe6e9;
-  --accent:#2d98da;
-  --ui:#ffffff;
-  --font: 'Press Start 2P', monospace;
+  --bg: #fff8f2;
+  --card: #fff;
+  --accent: #ff7aa2;
+  --accent-2: #ffd166;
+  --muted: #6b6b6b;
+  --success: #2ab27b;
+  --danger: #e24b4b;
+  --glass: rgba(255,255,255,0.6);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-html,body,#app{height:100%;margin:0;background:var(--bg);font-family:var(--font)}
-#app{display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-canvas{image-rendering:pixelated;box-shadow:0 6px 20px rgba(0,0,0,0.7);width:100%;height:auto;max-height:100vh;display:block}
-
-.overlay{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ui);
-  background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.85));
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,var(--bg),#fff);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  padding:18px;
 }
-.overlay h1{font-size:36px;margin:0 0 20px}
-.overlay h2{font-size:28px;margin:0 0 18px}
-.big{background:var(--accent);color:#fff;padding:18px 28px;border:0;border-radius:10px;font-weight:700;cursor:pointer;font-size:16px;min-width:160px}
 
-.hidden{display:none}
-#hud{position:absolute;top:12px;left:12px;color:var(--ui);display:flex;gap:12px;align-items:center}
-#mobileControls{position:absolute;bottom:18px;left:18px;display:flex;gap:12px}
-.touchBtn{width:84px;height:84px;border-radius:12px;background:rgba(255,255,255,0.06);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;user-select:none;touch-action:none}
-#leftBtn,#rightBtn{width:84px}
+.app{
+  width:100%;
+  max-width:540px;
+  background:var(--card);
+  border-radius:18px;
+  box-shadow:0 8px 30px rgba(12,20,40,0.08);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding:16px;
+  min-height:calc(100vh - 36px);
+}
 
-/* jump button anchored bottom-right for easier reach on mobile */
-#jumpBtn{
-  position:absolute;
-  right:18px;
-  bottom:18px;
-  width:88px;
-  height:88px;
+/* Header */
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.logo{
+  width:64px;
+  height:64px;
   border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-size:28px;
-  background:rgba(255,255,255,0.08);
-  z-index:3;
+  color:white;
+  box-shadow:0 6px 18px rgba(255,122,162,0.18);
 }
-#levelText,#swordCount{background:rgba(255,255,255,0.04);padding:8px 10px;border-radius:6px;font-size:12px}
-@media (max-width:720px){
-  canvas{width:100%;height:100vh;object-fit:cover}
-  .overlay h1{font-size:28px}
-  .big{padding:16px 24px;font-size:14px;min-width:140px}
-  .touchBtn{width:72px;height:72px;font-size:22px}
-  
+.title .name{font-weight:700; font-size:18px}
+.title .subtitle{font-size:12px; color:var(--muted)}
+
+/* Hero */
+.hero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  padding:6px 4px;
+}
+.tagline{color:var(--muted); margin:0; text-align:center}
+.big-btn{
+  width:84%;
+  max-width:360px;
+  padding:14px 18px;
+  border-radius:12px;
+  font-size:18px;
+  border:0;
+  cursor:pointer;
+  background:linear-gradient(90deg,var(--accent),#ff9bb5);
+  color:white;
+  box-shadow:0 8px 20px rgba(255,122,162,0.12);
+}
+.big-btn.secondary{
+  background:transparent;
+  border:1px solid #eee;
+  color:#333;
+  box-shadow:none;
+}
+.big-btn.primary{
+  background:linear-gradient(90deg,var(--accent),#ff9bb5);
+}
+
+/* Summary */
+.orders-summary{padding:6px 2px}
+.orders-summary h3{margin:0 0 8px 8px; font-size:14px; color:var(--muted)}
+.list{list-style:none; padding:0 10px; margin:0; display:flex; flex-direction:column; gap:8px; max-height:120px; overflow:auto}
+.list .item{
+  display:flex; justify-content:space-between; align-items:center;
+  background:#fff7f9; padding:10px; border-radius:10px; font-size:14px;
+  box-shadow:0 4px 10px rgba(12,20,40,0.04);
+}
+
+/* Modal sheet */
+.overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.28));
+  padding:20px;
+}
+.hidden{display:none}
+.sheet{
+  width:100%;
+  max-width:560px;
+  background:linear-gradient(180deg,#fff,#fff);
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 18px 40px rgba(12,20,40,0.18);
+}
+.sheet-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px}
+.icon-btn{background:transparent;border:0;font-size:18px;cursor:pointer;padding:8px;border-radius:8px}
+.form .field{margin:8px 0; display:flex; flex-direction:column; gap:8px}
+.field span{font-weight:600}
+input[type="text"]{
+  padding:12px 10px; border-radius:10px; border:1px solid #eee; font-size:16px;
+}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{
+  padding:8px 10px; border-radius:999px; background:#fff3f6; border:1px solid rgba(0,0,0,0.04);
+  cursor:pointer; user-select:none; font-size:15px;
+}
+.chip.selected{background:linear-gradient(90deg,var(--accent),#ff9bb5); color:white; box-shadow:0 8px 18px rgba(255,122,162,0.12)}
+.times{display:flex; gap:8px; flex-wrap:wrap}
+.time-btn{
+  padding:10px 12px; border-radius:12px; border:1px solid #eee; background:white; cursor:pointer; min-width:110px; text-align:center;
+}
+.time-btn:disabled{opacity:0.5; cursor:not-allowed}
+.time-btn.selected{background:linear-gradient(90deg,var(--accent-2),#ffd89a); border:0}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#fff3f6;color:#a12a5a}
+
+/* Toast */
+.toast{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:24px;
+  background:rgba(0,0,0,0.85);
+  color:white;
+  padding:12px 16px;
+  border-radius:999px;
+  font-weight:600;
+  z-index:60;
+  box-shadow:0 8px 30px rgba(0,0,0,0.25);
+}
+
+/* small screens adjustments */
+@media (max-width:420px){
+  .logo{width:56px;height:56px;font-size:24px;border-radius:12px}
+  .big-btn{width:92%}
+  .time-btn{min-width:100px}
+  .app{padding:12px;border-radius:14px}
+  }
